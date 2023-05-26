@@ -1,0 +1,21 @@
+<head>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet">
+    <title>NG-embedded Forum</title>
+</head>
+<body>
+    <div style="display:none;">
+        <div class="message">
+            <header class="messageHeader"><span class="player-id"></span>【NG: <span class="ng"></span>】<span class="judge"></span></header>
+            <span class="body"></span>
+        </div>
+    </div>
+    <div id="content">
+    </div>
+    <form id="submitForm" onsubmit="return false;">
+        <input id="submitText" type="text">
+        <a id="submitButton" onClick="submit()">Submit</a>
+    </form>
+
+    <script src="main.js"></script>
+</body>
