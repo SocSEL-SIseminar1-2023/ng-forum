@@ -1,4 +1,7 @@
-# NG-embedded Forum
+# NG-embedded Forum (choimuzu)
+<div align="center">
+     <img src="https://github.com/SocSEL-SIseminar1-2023/ng-forum/assets/32835505/d94e3267-6a15-4690-89fc-a398468decbd" width="80%">
+</div>
 
 
 ## これは何？
