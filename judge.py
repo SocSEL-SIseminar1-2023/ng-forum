@@ -57,7 +57,7 @@ def contains_junishi_animal(message):
     :return: メッセージに1つ以上の十二支の動物があればTrue、それ以外でFalse
     :rtype: bool
     """
-    return message in ('鼠', '牛', '...')
+    return message in ('子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥')
 
 
 
