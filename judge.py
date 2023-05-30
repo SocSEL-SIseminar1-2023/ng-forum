@@ -1,8 +1,8 @@
 """NG行動名とNG判定関数を提供する"""
 import random
 import re
-
-
+import collections
+import pandas as pd
 
 def is_more_than_30_chars(message):
     """メッセージが30文字以上か判定する
@@ -57,9 +57,25 @@ def contains_junishi_animal(message):
     :return: メッセージに1つ以上の十二支の動物があればTrue、それ以外でFalse
     :rtype: bool
     """
-    return message in ('鼠', '牛', '...')
 
+    return message in ('子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥',
+    'ネズミ','ウシ','トラ','ウサギ','リュウ','ヘビ','ウマ','ヒツジ','サル','トリ','イヌ','イノシシ',
+    'ねずみ','うし','とら','うさぎ','りゅう','へび','うま','ひつじ','さる','とり','いぬ','いのしし')
 
+def contains_kanji_even(messeage):
+    url = 'https://raw.githubusercontent.com/cjkvi/cjkvi-tables/15569eaae99daef9f99f0383e9d8efbec64a7c5a/joyo2010.txt'
+    df = pd.read_csv(url, header=None, skiprows=1, delimiter='\t')
+    kanji = ''.join(df.iloc[:, 0])
+    count = []
+    count = list(messeage)
+    #c = collections.Counter(count)
+    for i in range(len(count)):
+        if(count[i] in kanji):
+            box = count.count(count[i])
+            if(box % 2 == 0 & box != 0 ):
+                return True
+    
+    
 
 def get_random_ng():
     """ランダムなNG行動名とNG判定関数を返す
@@ -73,4 +89,5 @@ def get_random_ng():
         ('30文字以上の文章', is_more_than_30_chars),
         ('素数を含む文章', contains_prime_number),
         ('十二支の動物を含む文章', contains_junishi_animal),
+        ('テスト',contains_kanji_even),
     ])
