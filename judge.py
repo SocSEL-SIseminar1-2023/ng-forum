@@ -1,8 +1,6 @@
 """NG行動名とNG判定関数を提供する"""
 import random
 import re
-import collections
-import pandas as pd
 
 def is_more_than_30_chars(message):
     """メッセージが30文字以上か判定する
@@ -62,18 +60,19 @@ def contains_junishi_animal(message):
     'ネズミ','ウシ','トラ','ウサギ','リュウ','ヘビ','ウマ','ヒツジ','サル','トリ','イヌ','イノシシ',
     'ねずみ','うし','とら','うさぎ','りゅう','へび','うま','ひつじ','さる','とり','いぬ','いのしし')
 
-def contains_kanji_even(messeage):
-    url = 'https://raw.githubusercontent.com/cjkvi/cjkvi-tables/15569eaae99daef9f99f0383e9d8efbec64a7c5a/joyo2010.txt'
-    df = pd.read_csv(url, header=None, skiprows=1, delimiter='\t')
-    kanji = ''.join(df.iloc[:, 0])
+def contains_kanji_even(message):
     count = []
-    count = list(messeage)
-    #c = collections.Counter(count)
+    for kanji in set(re.findall(r'[\u4E00-\u9FD0]', message)):
+        count.append(kanji) # message内の漢字を1種類ずつcountに格納
+    print(count)
     for i in range(len(count)):
-        if(count[i] in kanji):
-            box = count.count(count[i])
-            if(box % 2 == 0 & box != 0 ):
-                return True
+        box = message.count(count[i])
+        print(box)
+        if(box % 2 == 0 and box != 0 ):
+            print("true")
+            return True
+    return False
+    
     
     
 
