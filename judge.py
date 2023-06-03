@@ -2,8 +2,6 @@
 import random
 import re
 
-
-
 def is_more_than_30_chars(message):
     """メッセージが30文字以上か判定する
 
@@ -57,9 +55,28 @@ def contains_junishi_animal(message):
     :return: メッセージに1つ以上の十二支の動物があればTrue、それ以外でFalse
     :rtype: bool
     """
-    return message in ('鼠', '牛', '...')
 
+    return message in ('子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥',
+    'ネズミ','ウシ','トラ','ウサギ','リュウ','ヘビ','ウマ','ヒツジ','サル','トリ','イヌ','イノシシ',
+    'ねずみ','うし','とら','うさぎ','りゅう','へび','うま','ひつじ','さる','とり','いぬ','いのしし')
 
+def contains_kanji_even(message):
+    """メッセージに同一の漢字が偶数回出現しているかを判定する
+
+    メッセージの漢字の個数を数え、bool値を返す
+
+    正規表現で漢字かどうかを判定（kanjiに格納される）
+    :return: メッセージ内に同一の漢字偶数個あればTrue、それ以外でFalse
+    :rtype: bool
+    """
+    for kanji in set(re.findall(r'[\u4E00-\u9FD0]', message)):
+        if message.count(kanji) % 2 == 0:
+            return True
+    return False
+
+    
+    
+    
 
 def get_random_ng():
     """ランダムなNG行動名とNG判定関数を返す
@@ -73,4 +90,5 @@ def get_random_ng():
         ('30文字以上の文章', is_more_than_30_chars),
         ('素数を含む文章', contains_prime_number),
         ('十二支の動物を含む文章', contains_junishi_animal),
+        ('同じ漢字を偶数回出現する文章',contains_kanji_even),
     ])
