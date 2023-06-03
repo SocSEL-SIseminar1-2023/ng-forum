@@ -61,17 +61,19 @@ def contains_junishi_animal(message):
     'ねずみ','うし','とら','うさぎ','りゅう','へび','うま','ひつじ','さる','とり','いぬ','いのしし')
 
 def contains_kanji_even(message):
-    count = []
+    """メッセージに同一の漢字が偶数回出現しているかを判定する
+
+    メッセージの漢字の個数を数え、bool値を返す
+
+    正規表現で漢字かどうかを判定（kanjiに格納される）
+    :return: メッセージ内に同一の漢字偶数個あればTrue、それ以外でFalse
+    :rtype: bool
+    """
     for kanji in set(re.findall(r'[\u4E00-\u9FD0]', message)):
-        count.append(kanji) # message内の漢字を1種類ずつcountに格納
-    print(count)
-    for i in range(len(count)):
-        box = message.count(count[i])
-        print(box)
-        if(box % 2 == 0 and box != 0 ):
-            print("true")
+        if message.count(kanji) % 2 == 0:
             return True
     return False
+
     
     
     
@@ -88,5 +90,5 @@ def get_random_ng():
         ('30文字以上の文章', is_more_than_30_chars),
         ('素数を含む文章', contains_prime_number),
         ('十二支の動物を含む文章', contains_junishi_animal),
-        ('テスト',contains_kanji_even),
+        ('同じ漢字を偶数回出現する文章',contains_kanji_even),
     ])
