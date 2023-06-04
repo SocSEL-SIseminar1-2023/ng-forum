@@ -31,9 +31,10 @@ players = {}
 {
     クライアントから送信されるトークン文字列: {
         'player_id': プレイヤの固有文字列,
-        'ng': プレイヤのNG行動,
+        'ng[]': プレイヤのNG行動,
         'checker': NG行動を判定する関数（引数は判定したいメッセージ）,
         'sequence': 最後に返答したときのメッセージ数
+        
     }
     ...
 ]
@@ -44,6 +45,7 @@ players = {}
 class App:
     """URLに応じてレスポンスを返す
     """
+
 
     def __init__(self, start_response):
         self.start_response = start_response
@@ -75,9 +77,10 @@ class App:
             ng_rule, checker = judge.get_random_ng()
             players[token] = {
                 'player_id': hashlib.md5(token.encode('utf-8')).hexdigest(),
-                'ng': ng_rule,
-                'checker': checker,
-                'sequence': len(messages)
+                'ng': [ng_rule],
+                'checker': [checker],
+                'sequence': len(messages),
+                'count': 0,
             }
         # 受信プレイヤのNG行動を隠して返答する
         result_messages = copy.deepcopy(messages)
@@ -86,7 +89,6 @@ class App:
                 message['ng'] = '?'
         self.start_response('200 OK', [('Content-type', 'application/json')])
         return [json.dumps(result_messages).encode('utf-8')]
-
 
 
     def insert_message(self, message):
@@ -105,8 +107,14 @@ class App:
             'player_id': players[message['token']]['player_id'],
             'body': message['body'],
             'ng': players[message['token']]['ng'],
-            'judge': "アウト" if players[message['token']]['checker'](message['body']) else 'セーフ',
+            'count':players[message['token']]['count'],
+            'judge': "アウト" if any(players[message['token']]['checker'](message['body'])) else 'セーフ'
         })
+        players[message['token']]['count'] += 1
+        if 'count' == 5:
+            ng_rule, checker = judge.get_random_ng()
+            players[message['token']]['ng'].append(ng_rule)
+            players[message['token']]['checker'].append(checker)
         self.start_response('200 OK', [('Content-type', 'application/json')])
         return b''
 
@@ -172,6 +180,7 @@ class App:
         """
         self.start_response('404 Not Found', [])
         return b''
+
 
 
 
