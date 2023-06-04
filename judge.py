@@ -61,6 +61,28 @@ def contains_junishi_animal(message):
 
 
 
+def number_multiplication_sum(message):
+    """メッセージに含まれる数をすべてかけた数の大きさを判定する
+
+    メッセージに含まれる数の積が100より大きいか判定し、bool値を返す
+
+    :param message: 判定するメッセージ
+    :type message: str
+    :return: メッセージに含まれる数の積が100より大きければTrue、それ以外でFalse
+    :rtype: bool
+    """
+    # 文章中の整数numberを順番に取り出す
+    product = 1
+    for number in map(int, re.findall(r'\d+', message)):
+        product *= number
+
+    if product > 100:
+        return True
+
+    return False
+
+
+
 def get_random_ng():
     """ランダムなNG行動名とNG判定関数を返す
 
@@ -73,4 +95,5 @@ def get_random_ng():
         ('30文字以上の文章', is_more_than_30_chars),
         ('素数を含む文章', contains_prime_number),
         ('十二支の動物を含む文章', contains_junishi_animal),
+        ('含まれる数の積が100以上の文章', number_multiplication_sum),
     ])
